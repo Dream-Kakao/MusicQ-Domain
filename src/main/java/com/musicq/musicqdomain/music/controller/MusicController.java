@@ -31,7 +31,7 @@ public class MusicController {
 		for (Music music : musicList) {
 			log.info(music);
 			MusicDto musicDto = MusicDto.builder()
-				.music_id(music.getMusicId())
+				.musicId(music.getMusicId())
 				.videoId(music.getVideoId())
 				.musicTitle(music.getMusicTitle())
 				.singer(music.getSinger())

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class MusicDto {
 
 	@NotNull
-	private Long music_id;
+	private Long musicId;
 	@NotNull
 	private String videoId;
 	@NotNull

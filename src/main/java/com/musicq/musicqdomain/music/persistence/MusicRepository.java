@@ -11,7 +11,7 @@ public interface MusicRepository extends JpaRepository<Music, Integer> {
 
 	default MusicDto entityToDto(Music music) {
 		MusicDto musicDto = MusicDto.builder()
-			.music_id(music.getMusicId())
+			.musicId(music.getMusicId())
 			.videoId(music.getVideoId())
 			.musicTitle(music.getMusicTitle())
 			.singer(music.getSinger())
