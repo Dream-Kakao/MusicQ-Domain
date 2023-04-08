@@ -97,6 +97,26 @@ public class MemberController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PutMapping("/password/{id}")
+	public ResponseEntity<Object> changesPassword(
+		@Valid @PathVariable("id") String id,
+		@Valid @RequestBody String password
+	) {
+		Map<String, String> response = new HashMap<>();
+		try {
+			Member existMember = memberRepository.findById(id);
+			existMember.changesPassword(password);
+			memberRepository.save(existMember);
+			response.put("result", "Success");
+			return ResponseEntity.ok(response);
+		} catch (NullPointerException e) {
+			log.warn(e.getStackTrace());
+			log.warn(e.getMessage());
+			response.put("result", "Failed");
+			return ResponseEntity.badRequest().body(response);
+		}
+	}
+
 	// 회원 탈퇴
 	@DeleteMapping("/member/{id}")
 	public ResponseEntity<Object> unregister(
