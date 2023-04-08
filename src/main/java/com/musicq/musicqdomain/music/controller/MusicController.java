@@ -23,7 +23,7 @@ public class MusicController {
 
 	private final MusicRepository musicRepository;
 
-	@GetMapping("/searchAllMusics")
+	@GetMapping("/all")
 	public ResponseEntity<List<MusicDto>> searchAll() {
 		List<Music> musicList = musicRepository.findAll();
 		log.info(musicList);
