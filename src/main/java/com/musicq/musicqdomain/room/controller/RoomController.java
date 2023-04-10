@@ -1,9 +1,15 @@
 package com.musicq.musicqdomain.room.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,5 +59,38 @@ public class RoomController {
 		response.put("result", 0L);
 		return ResponseEntity.ok(response);
 
+	}
+
+	// page와 size를 받아야 리턴 값으로 현재 페이지에 맞는 값을 줄 수 있다.
+	// page는 코드 상에선 0부터 시작이지만
+	// 사용자 관점에서는 1부터 시작이기에 -1 을 붙여주는 거 까먹지 말자.
+	@GetMapping("/all")
+	public ResponseEntity<Object> searchAll() {
+		// 예시로 기본 값 줘보기
+		int page = 2;
+		int size = 6;
+
+		Map<String, Object> response = new HashMap<>();
+		Pageable pageable = PageRequest.of(page, size, Sort.by("roomId").descending());
+		Page<Room> allRooms = roomRepository.searchAll(pageable);
+
+		response.put("totalPages", allRooms.getTotalElements());
+
+		response.put("size", allRooms.getSize());
+
+		response.put("number", allRooms.getNumber());
+
+		response.put("previous", allRooms.hasPrevious());
+
+		response.put("next", allRooms.hasNext());
+		List<RoomDto> dtoList = allRooms.getContent()
+			.stream()
+			.map(room ->
+				roomRepository.entityToRoomDto(room)
+			)
+			.collect(Collectors.toList());
+		response.put("data", allRooms.getContent());
+
+		return ResponseEntity.ok(response);
 	}
 }
