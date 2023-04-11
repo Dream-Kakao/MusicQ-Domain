@@ -24,7 +24,7 @@ public class RoomRepositoryTest {
 
 	@Test
 	public void insert() {
-		LongStream.rangeClosed(1, 90)
+		LongStream.rangeClosed(1, 10)
 			.forEach(i -> {
 				Room room = Room.builder()
 					.roomId(i)

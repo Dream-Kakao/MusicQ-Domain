@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.musicq.musicqdomain.room.domain.Room;
@@ -65,9 +66,13 @@ public class RoomController {
 	// page는 코드 상에선 0부터 시작이지만
 	// 사용자 관점에서는 1부터 시작이기에 -1 을 붙여주는 거 까먹지 말자.
 	@GetMapping("/all")
-	public ResponseEntity<Object> searchAll() {
-		// 예시로 기본 값 줘보기
-		int page = 2;
+	public ResponseEntity<Object> searchAll(
+		@Valid @RequestParam(required = false, value = "page") Integer page
+	) {
+		// page는 0부터 시작
+		page -= 1;
+
+		// size는 6으로 고정 - 이유 : 6개의 그리드로 끊어서 페이지를 보여줄 것이기 때문이다.
 		int size = 6;
 
 		Map<String, Object> response = new HashMap<>();
