@@ -97,7 +97,7 @@ public class MemberController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PutMapping("/password/{id}")
+	@PutMapping("/member/password/{id}")
 	public ResponseEntity<Object> changesPassword(
 		@Valid @PathVariable("id") String id,
 		@Valid @RequestBody String password
