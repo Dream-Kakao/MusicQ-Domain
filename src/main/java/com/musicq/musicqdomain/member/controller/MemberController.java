@@ -202,13 +202,16 @@ public class MemberController {
 		try {
 			count = memberRepository.countByNickname(nickname);
 			currentNickname = memberRepository.getCurrentNickname(id);
-			log.warn(currentNickname);
+			
+			if (currentNickname == null) {
+				currentNickname = "";
+			}
+			response.put("count", count);
+			response.put("currentNickname", currentNickname);
+
 		} catch (NullPointerException e) {
 			log.warn("Not Exist Nickname");
 		}
-
-		response.put("count", count);
-		response.put("currentNickname", currentNickname);
 		return ResponseEntity.ok(response);
 	}
 
