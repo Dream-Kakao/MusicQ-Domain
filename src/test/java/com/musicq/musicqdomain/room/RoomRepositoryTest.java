@@ -1,7 +1,9 @@
 package com.musicq.musicqdomain.room;
 
+import java.util.Optional;
 import java.util.stream.LongStream;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,29 +29,27 @@ public class RoomRepositoryTest {
 		LongStream.rangeClosed(1, 10)
 			.forEach(i -> {
 				Room room = Room.builder()
-					.roomId(i)
+					.roomId("ses_" + i)
 					.roomTitle("roomTitle" + i)
 					.gameName("낭독퀴즈")
 					.build();
-
 				roomRepository.save(room);
 			});
 	}
 
-	// build 시 오류가 나기에 일단 주석처리 했습니다.
-	/*@Test
+	@Test
 	public void selectOne() {
-		Optional<Room> findRoom = roomRepository.findById(1L);
+		Optional<Room> findRoom = roomRepository.findById("ses_7");
 		Room room = findRoom.get();
-		System.out.println("room = " + room);
-
+		Assertions.assertEquals(room.getRoomTitle(), "roomTitle7");
 	}
 
 	@Test
 	public void deleteRoomId() {
-		roomRepository.deleteById(1L);
-	}*/
+		roomRepository.deleteById("ses_7");
+	}
 
+	// TODO: 방 정렬 기준을 createAt으로 바꾸기...?
 	@Test
 	public void testSearchAll() {
 		Pageable pageable = PageRequest.of(0, 6, Sort.by("roomId").descending());
@@ -63,7 +63,7 @@ public class RoomRepositoryTest {
 		LongStream.rangeClosed(1, 90)
 			.forEach(i -> {
 				Room room = Room.builder()
-					.roomId(i)
+					.roomId("ses_" + i)
 					.roomTitle("roomTitle" + i)
 					.gameName("낭독퀴즈")
 					.build();
